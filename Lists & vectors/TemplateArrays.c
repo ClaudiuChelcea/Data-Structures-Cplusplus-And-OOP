@@ -21,8 +21,7 @@ std::ostream &operator<<(std::ostream &out, const Coords &my_Coords)
 }
 
 // Print the whole vector and delete it
-template <typename T>
-void print_and_clear_Vector(std::vector<T> &my_vector)
+template <typename T> void print_and_clear_Vector(std::vector<T> &my_vector)
 {
   std::cout << "\nPrinting and erasing vector!\n";
   int index = 1;
@@ -36,7 +35,7 @@ void print_and_clear_Vector(std::vector<T> &my_vector)
 
   // Check if the vector is cleared
   if (my_vector.size() == 0)
-    std::cout << "Done!\n";
+    std::cout << "Cleared vector!\n";
 }
 
 // Display the whole list with only one 'cout'
@@ -72,6 +71,7 @@ int main(void)
   */
 
   // Add elements
+  std::cout << "Created vector!\n";
   std::vector<Coords> objects_coords;
   objects_coords.push_back({0, 0, 25});
   objects_coords.push_back({5, 5, 20});
@@ -83,7 +83,7 @@ int main(void)
   // Clear the elements
   objects_coords.clear();
   if (objects_coords.size() == 0)
-    std::cout << "Cleared vector!\n";
+    std::cout << "Cleared vector!\n\n";
 
   // Create new vector with predefined size
   // and print from certain positions
