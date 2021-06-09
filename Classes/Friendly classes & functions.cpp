@@ -20,6 +20,8 @@ namespace Players
             void displayCharacter();
             friend class Second_Character;
             friend void displayCharacterStatus(Character & myCharacter);
+            static void displayOpening() { std::cout<<"===============START===============\n\n"; }
+            static void displayEnding() { std::cout<<"\n===============END===============\n"; }
     };
 
 
@@ -70,6 +72,9 @@ namespace Players
 }
 int main(void)
 {
+    // On_enter display greeting
+    Players::Character::displayOpening();
+
     // Create first character
     std::cout<<"Main character:\n";
     Players::Character mainCharacter;
@@ -91,6 +96,9 @@ int main(void)
 
     // Release memory
     delete[] secondaryCharacters;
+
+    // Show end message
+    Players::Character::displayEnding();
 
     return 0;
 }
