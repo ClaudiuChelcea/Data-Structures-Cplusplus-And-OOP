@@ -7,11 +7,11 @@
 class Vehicle {
     private:
         bool runningEngine;
-    std::pair < int, int > coordinates;
+        std::pair < int, int > coordinates;
     public:
         Vehicle();
-    ~Vehicle();
-    void moveStep(char * direction, int gameBoard[][BOARD_SIZE], int & running);
+        ~Vehicle();
+        void moveStep(char * direction, int gameBoard[][BOARD_SIZE], int & running);
 };
 
 // Constructor
