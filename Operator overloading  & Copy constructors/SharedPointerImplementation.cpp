@@ -4,22 +4,22 @@
 
 namespace std_X
 {
-	// Create own implementation for unique_ptr
+	// Create own implementation for shared_ptr
 	template <typename pointerType>
-	class unique_ptr
+	class shared_ptr
 	{
 		public:
 			// Value
 			pointerType* data;
 
-			unique_ptr() : data(NULL) {} 					    // NULL Constructor
-			unique_ptr(pointerType* element) : data(element) {} // Constructor
-			~unique_ptr() {} 								    // Destructor
+			shared_ptr() : data(NULL) {} 					    // NULL Constructor
+			shared_ptr(pointerType* element) : data(element) {} // Constructor
+			~shared_ptr() {} 								    // Destructor
 
 			// Create unique 
-			unique_ptr make_unique(pointerType* data)
+			shared_ptr make_unique(pointerType* data)
 			{
-				unique_ptr<pointerType> my_unique;
+				shared_ptr<pointerType> my_unique;
 				my_unique->data = data;
 				return my_unique;
 			}
@@ -42,7 +42,7 @@ namespace std_X
 				return (*data);
 			}
 
-			void operator=(const unique_ptr& second_unique)
+			void operator=(const shared_ptr& second_unique)
 			{
 				std::move(this->data, second_unique->data);
 			}
@@ -134,8 +134,8 @@ int main(void)
 
 	// Create pointer to the student
 	std::cout << "\nCopy student unique pointer:\n";
-	std_X::unique_ptr<Student> my_unique_ptr = my_student;
-	std::cout << *my_unique_ptr.data;
+	std_X::shared_ptr<Student> my_shared_ptr = my_student;
+	std::cout << *my_shared_ptr.data;
 
 	// Create new student
 	std::cout << "\nCreated new student:\n";
@@ -144,11 +144,12 @@ int main(void)
 
 	// Move pointer
 	std::cout << "\nMove unique pointer:\n";
-	my_unique_ptr = my_student_2;
-	std::cout<<*my_unique_ptr.data;
+	my_shared_ptr = my_student_2;
+	std::cout<<*my_shared_ptr.data;
 
-	// Add second pointer to take the place of the first one
-	std_X::unique_ptr<Student> my_second_ptr = my_unique_ptr;
+	// Add second pointer
+	std_X::shared_ptr<Student> my_second_ptr = my_shared_ptr;
+	std::cout<<"\nShared pointer:\n";
 	std::cout << *my_second_ptr.data;
 
 	// Release memory
