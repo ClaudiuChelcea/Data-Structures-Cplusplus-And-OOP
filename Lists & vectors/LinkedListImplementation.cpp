@@ -1,10 +1,10 @@
 #include <iostream>
 #include <time.h>
 
-#define DIE(assertion, message)			\
+#define DIE(assertion, message)					\
 if (assertion) { 						\
-    std::cout << message << '\n';		\
-    exit(EXIT_FAILURE);					\
+    std::cout << message << '\n';				\
+    exit(EXIT_FAILURE);						\
 }
 
 // List node
@@ -194,11 +194,12 @@ void remove_nodes(struct ll ** list, int index) {
     // Recalculate size
     ( * list) -> size--;
 }
-// 0 1 2 3 4 5 6 7 8 9
-int main(void) {
+
+int main(void)
+{
     // Create list and insert nodes
     srand(time(0));
-    struct ll * my_list = NULL; // rand() % 100
+    struct ll * my_list = NULL;
     for (int i = 0; i < 10; i++)
         insert_in_list( & my_list, i);
 
