@@ -10,13 +10,14 @@ namespace test_class {
         int age;
         double average_grades;
         public:
-            // Constructors
+            // Constructor default
             Student() {
                 this -> name = new char[NAME_MAX];
                 this -> age = 0;
                 this -> average_grades = 0;
             }
-
+			
+			// Custom constructor
 			Student(char * getName, int getAge, double getAverageGrades) {
 					this -> name = new char[NAME_MAX];
 					strcpy(this -> name, getName);
