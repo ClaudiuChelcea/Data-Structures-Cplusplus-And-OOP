@@ -22,7 +22,7 @@ int main(void)
     c = my_table.get(8345);  // 3
     d = my_table.get(13459);  // 4
 
-	// Show values
+	// Display values
 	std::cout << "Retrieved elements: ";
 	std::cout << a << " " << b << " " << c << " " << d << "\n\n";
 
