@@ -10,42 +10,47 @@ namespace test_class {
         int age;
         double average_grades;
         public:
-            // Constructor default
-            Student() {
-                this -> name = new char[NAME_MAX];
-                this -> age = 0;
-                this -> average_grades = 0;
-            }
+	    // Constructor default
+	    Student() {
+		this -> name = new char[NAME_MAX];
+		this -> age = 0;
+		this -> average_grades = 0;
+	    }
 			
-			// Custom constructor
-			Student(char * getName, int getAge, double getAverageGrades) {
-					this -> name = new char[NAME_MAX];
-					strcpy(this -> name, getName);
-					this -> age = getAge;
-					this -> average_grades = getAverageGrades;
-				}
+		// Custom constructor
+		Student(char * getName, int getAge, double getAverageGrades)
+		{
+			this -> name = new char[NAME_MAX];
+			strcpy(this -> name, getName);
+			this -> age = getAge;
+			this -> average_grades = getAverageGrades;
+		}
 
-            // Destructor
-            ~Student() {
-                delete[] name;
-            }
+		    // Destructor
+		    ~Student()
+			{
+				delete[] name;
+		    }
 
 			// Copy constructor
-			Student(const Student & operand) {
+			Student(const Student & operand)
+			{
 				this -> age = operand.age;
 				this -> average_grades = operand.average_grades;
 				this -> name = strdup(operand.name);
 			}
 
 			// Assignment operator
-			void operator = (const Student & operand) {
+			void operator = (const Student & operand)
+			{
 				this -> age = operand.age;
 				this -> average_grades = operand.average_grades;
 				this -> name = strdup(operand.name);
 			}
 
 			// Check if the student exists
-			bool isAlive() {
+			bool isAlive()
+			{
 				if (this)
 					return true;
 				return false;
@@ -54,18 +59,22 @@ namespace test_class {
 			friend std::ofstream & operator << (std::ofstream & out, Student & my_student);
 
 			// Getters
-			char * getName() {
+			char * getName()
+			{
 				return this -> name;
 			}
-			int getAge() {
+			int getAge()
+			{
 				return this -> age;
 			}
-			double getAverageGrade() {
+			double getAverageGrade()
+			{
 				return this -> average_grades;
 			}
     };
 
-    std::ostream & operator << (std::ostream & out, Student & my_student) {
+    std::ostream & operator << (std::ostream & out, Student & my_student)
+	{
         if (!my_student.isAlive()) {
             out << "Dead";
             return out;
@@ -85,32 +94,37 @@ namespace std_X {
         class unique_ptr {
             private:
                 dataType * ptr;
-            unsigned int data_size;
+            	unsigned int data_size;
             public:
                 // Empty constructor
                 unique_ptr() {}
 
 				// Constructor for receiving pointer
-				unique_ptr(dataType * element) {
-						data_size = sizeof(dataType);
-						ptr = element;
-					}
+				unique_ptr(dataType * element)
+				{
+					data_size = sizeof(dataType);
+					ptr = element;
+				}
 
-					// Destructor
-					~unique_ptr() {
-						if (ptr != nullptr) delete ptr;
-					}
+				// Destructor
+				~unique_ptr()
+				{
+					if (ptr != nullptr) delete ptr;
+				}
 
 				// Operators
-				dataType & operator * () {
+				dataType & operator * ()
+				{
 					return *ptr;
 				}
-				dataType operator -> () const {
+				dataType operator -> () const
+				{
 					return *ptr;
 				}
 
 				// Assignment operator to pointer (to student in our case)
-				void operator = (dataType * operand) {
+				void operator = (dataType * operand)
+				{
 					// Release current memory
 					delete ptr;
 
@@ -119,9 +133,10 @@ namespace std_X {
 				}
 
 				// Assignment operator to unique pointer (move memory)
-				void operator = (unique_ptr & operand) {
-                this -> ptr = operand.ptr;
-                operand.ptr = nullptr;
+				void operator = (unique_ptr & operand)
+				{
+					this -> ptr = operand.ptr;
+					operand.ptr = nullptr;
             	}
         };
 }
