@@ -9,26 +9,28 @@
 /**
  * Node representation
  */
-struct Node {
-    std::vector<int> neighbors;
+struct Node
+{
+    std::vector < int > neighbors;
 };
 
 /**
  * Neighbors list implementation.
  */
-class ListGraph {
-private:
-    // Vector of vectors
-    // Each node has a vector of nodes representing adjacent nodes
-    std::vector<Node> nodes;
+class ListGraph
+{
+    private:
+        // Vector of vectors
+        // Each node has a vector of nodes representing adjacent nodes
+        std::vector < Node > nodes;
     int size;
 
-public:
+    public:
     // Constructor
     ListGraph(int size)
     {
-        this->size = size;
-        nodes.resize(this->size);
+        this -> size = size;
+        nodes.resize(this -> size);
     }
 
     // Destructor
@@ -47,11 +49,11 @@ public:
     void removeItem(int src, int dst)
     {
         // Getiterator
-        std::vector<int> :: iterator element = nodes[src].neighbors.begin();
+        std::vector < int > ::iterator element = nodes[src].neighbors.begin();
 
         // Find element in the list
-        for(; element != nodes[src].neighbors.end(); ++element) {
-            if(*element == dst) {
+        for (; element != nodes[src].neighbors.end(); ++element) {
+            if ( * element == dst) {
                 break;
             }
         }
@@ -77,22 +79,23 @@ public:
     bool hasEdge(int src, int dst)
     {
         // Getiterator
-        std::vector<int> :: iterator element = nodes[src].neighbors.begin();
+        std::vector < int > ::iterator element = nodes[src].neighbors.begin();
 
         // Find element in the first list
-        for(; element != nodes[src].neighbors.end(); ++element) {
-            if(*element == dst) {
+        for (; element != nodes[src].neighbors.end(); ++element) {
+            if ( * element == dst) {
                 return true;
             }
         }
 
-       return false;
+        return false;
     }
 
     /**
      * Gets the vector of neighbors associated with the given node.
      */
-    std::vector<int> getNeighbors(int node) {
+    std::vector < int > getNeighbors(int node)
+    {
         return nodes[node].neighbors;
     }
 
@@ -101,17 +104,18 @@ public:
      *
      * @return Number of nodes in the graph.
      */
-    int getSize() {
+    int getSize()
+    {
         return size;
     }
 
     // Print the whole graph
     void printListGraph()
     {
-        for(int i = 0; i < size; ++i) {
+        for (int i = 0; i < size; ++i) {
             std::cout << i << ": ";
-            for(int j = 0; j < nodes.at(i).neighbors.size(); j++) {
-                if(j != nodes[i].neighbors.size()-1)
+            for (int j = 0; j < nodes.at(i).neighbors.size(); j++) {
+                if (j != nodes[i].neighbors.size() - 1)
                     std::cout << nodes.at(i).neighbors[j] << "--> ";
                 else
                     std::cout << nodes.at(i).neighbors[j];
@@ -119,7 +123,7 @@ public:
             std::cout << "\n";
         }
     }
-    
+
     // BFS algorithm
     // Add the first element in the queue and mark it as visited
     // While the queue is not empty, get the first element, pop it
@@ -131,29 +135,28 @@ public:
         std::cout << "\nBFS traversal: ";
 
         // Create queue with the root
-        std::queue<int> my_queue;
+        std::queue < int > my_queue;
         my_queue.push(root);
 
         // Create visited vector
         int visited[size];
-        for(int i=0;i<size;i++)
+        for (int i = 0; i < size; i++)
             visited[i] = 0;
 
         visited[root] = 1;
-        while(!my_queue.empty())
-        {
+        while (!my_queue.empty()) {
             // Get all neighbors of the current element and display our element
-            std::vector<int> my_neighbors = getNeighbors(my_queue.front());
+            std::vector < int > my_neighbors = getNeighbors(my_queue.front());
             std::cout << my_queue.front() << " ";
             my_queue.pop();
-            
+
             // For each neighbour, if it is not visited, visit it
-            for(auto& element : my_neighbors) {
-                if(visited[element] == 0) {
+            for (auto & element: my_neighbors) {
+                if (visited[element] == 0) {
                     visited[element] = 1;
                     my_queue.push(element);
                 }
-            }            
+            }
         }
 
         std::cout << "\n";
@@ -168,14 +171,14 @@ public:
     void print_DFS(int root)
     {
         std::cout << "\nDFS traversal: ";
-        
+
         // Create visited vector
         int visited[size];
-        for(int i=0;i<size;i++)
+        for (int i = 0; i < size; i++)
             visited[i] = 0;
 
         // Create stack of elements
-        std::stack<int> my_stack;
+        std::stack < int > my_stack;
 
         // Add root and mark as visited
         visited[root]++;
@@ -183,25 +186,25 @@ public:
         std::cout << my_stack.top() << " ";
 
         // Repeat until the stack is empty
-        while(!my_stack.empty()) {
+        while (!my_stack.empty()) {
             // Get neighbors
-            std::vector<int> my_neighbors = getNeighbors(my_stack.top());
+            std::vector < int > my_neighbors = getNeighbors(my_stack.top());
 
             // Find the virst non-visited neighbour
             int my_nonvisited_neighbour = -1;
-            for(int i = 0; i < my_neighbors.size(); ++i) {
-                if(!visited[my_neighbors[i]]) {
+            for (int i = 0; i < my_neighbors.size(); ++i) {
+                if (!visited[my_neighbors[i]]) {
                     my_nonvisited_neighbour = my_neighbors[i];
                     break;
                 }
             }
 
             // Check the first neighbour
-            if(my_nonvisited_neighbour != -1) {
+            if (my_nonvisited_neighbour != -1) {
                 visited[my_nonvisited_neighbour]++;
                 my_stack.push(my_nonvisited_neighbour);
                 std::cout << my_stack.top() << " ";
-            } else  {
+            } else {
                 my_stack.pop();
             }
         }
