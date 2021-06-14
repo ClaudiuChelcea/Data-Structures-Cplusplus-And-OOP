@@ -3,25 +3,25 @@
 #include "MatrixGraph.h"
 #include <fstream>
 #include <cassert>
-#include <algorithm> 
+#include <algorithm>
 #include <list>
 
 // Display the number of conex components from a graph using breadth-first search
 static inline void funct_conex_components(std::ifstream& fileIN)
 {
     // Get the number of vertices and create graph
-    std::int_fast16_t vertices {0};
+    std::int_fast16_t vertices{ 0 };
     fileIN >> vertices;
     ListGraph my_graph(vertices);
 
     // Get the number of edges to add
-    std::int_fast16_t edges {0};
+    std::int_fast16_t edges{ 0 };
     fileIN >> edges;
 
     // Create the graf by getting the edges
-    for(int i = 0; i < edges; ++ i) {
-        int src {0};
-        int dst {0};
+    for (int i = 0; i < edges; ++i) {
+        int src{ 0 };
+        int dst{ 0 };
 
         // Get nodes
         fileIN >> src >> dst;
@@ -34,14 +34,14 @@ static inline void funct_conex_components(std::ifstream& fileIN)
 
     // Create visited node array
     int visited_array[vertices];
-    for(int i = 0; i < vertices; ++i) {
+    for (int i = 0; i < vertices; ++i) {
         visited_array[i] = 0;
-    }    
+    }
 
     // Count the number of conex components
-    std::int_fast16_t conex_components {0};
-    for(int i = 0; i < vertices; ++i) {
-        if(!visited_array[i]) {
+    std::int_fast16_t conex_components{ 0 };
+    for (int i = 0; i < vertices; ++i) {
+        if (!visited_array[i]) {
             my_graph.print_BFS(i, visited_array);
             ++conex_components;
         }
@@ -58,18 +58,18 @@ static inline void funct_conex_components(std::ifstream& fileIN)
 static inline void funct_min_distances(std::ifstream& fileIN)
 {
     // Get the number of vertices and create graph
-    std::int_fast16_t vertices {0};
+    std::int_fast16_t vertices{ 0 };
     fileIN >> vertices;
     ListGraph my_graph(vertices);
 
     // Get the number of edges to add
-    std::int_fast16_t edges {0};
+    std::int_fast16_t edges{ 0 };
     fileIN >> edges;
 
     // Create the graf by getting the edges
-    for(int i = 0; i < edges; ++ i) {
-        int src {0};
-        int dst {0};
+    for (int i = 0; i < edges; ++i) {
+        int src{ 0 };
+        int dst{ 0 };
 
         // Get nodes
         fileIN >> src >> dst;
@@ -87,13 +87,13 @@ static inline void funct_min_distances(std::ifstream& fileIN)
 
     // Print the result for all vertices
     std::cout << "\nDistances from each node to all other nodes:\n";
-    
+
     // Top row
     std::cout << "   ";
     for (int i = 0; i < vertices; ++i) {
         std::cout << i << " ";
     }
-    std::cout<<"\n";
+    std::cout << "\n";
 
     // Distances
     for (int i = 0; i < vertices; ++i) {
@@ -116,18 +116,18 @@ static inline void funct_min_distances(std::ifstream& fileIN)
 static inline void funct_topo_sort(std::ifstream& fileIN)
 {
     // Get the number of vertices and create graph
-    std::int_fast16_t vertices {0};
+    std::int_fast16_t vertices{ 0 };
     fileIN >> vertices;
     MatrixGraph my_graph(vertices);
 
     // Get the number of edges to add
-    std::int_fast16_t edges {0};
+    std::int_fast16_t edges{ 0 };
     fileIN >> edges;
 
     // Create the graf by getting the edges
-    for(int i = 0; i < edges; ++ i) {
-        int src {0};
-        int dst {0};
+    for (int i = 0; i < edges; ++i) {
+        int src{ 0 };
+        int dst{ 0 };
 
         // Get nodes
         fileIN >> src >> dst;
@@ -144,23 +144,23 @@ static inline void funct_topo_sort(std::ifstream& fileIN)
     // Create vector of pairs that pairs a node with it's finish time
     // First int -> finish_time
     // Second int -> node value
-    std::list<std::pair<int, int>> my_nodes_finish_time;
-    
+    std::list<std::pair<int, int> > my_nodes_finish_time;
+
     // Create visited node array
     int visited_array[vertices];
-    for(int i = 0; i < vertices; ++i) {
+    for (int i = 0; i < vertices; ++i) {
         visited_array[i] = 0;
-    }    
+    }
 
     // Walk through all the components and find the finish times
     for (int i = 0; i < vertices; ++i) {
-        if(visited_array[i] == 0) {
+        if (visited_array[i] == 0) {
             my_graph.topo_DFS(i, visited_array, my_nodes_finish_time);
         }
     }
-    
+
     // Display output
-    for(std::list<std::pair<int, int>> :: iterator element = my_nodes_finish_time.begin(); element != my_nodes_finish_time.end(); ++element)  {
+    for (std::list<std::pair<int, int> >::iterator element = my_nodes_finish_time.begin(); element != my_nodes_finish_time.end(); ++element) {
         std::cout << element->second << " ";
     }
 
@@ -171,18 +171,18 @@ static inline void funct_topo_sort(std::ifstream& fileIN)
 static inline void funct_check_bipartite(std::ifstream& fileIN)
 {
     // Get the number of vertices and create graph
-    std::int_fast16_t vertices {0};
+    std::int_fast16_t vertices{ 0 };
     fileIN >> vertices;
     MatrixGraph my_graph(vertices);
 
     // Get the number of edges to add
-    std::int_fast16_t edges {0};
+    std::int_fast16_t edges{ 0 };
     fileIN >> edges;
 
     // Create the graf by getting the edges
-    for(int i = 0; i < edges; ++ i) {
-        int src {0};
-        int dst {0};
+    for (int i = 0; i < edges; ++i) {
+        int src{ 0 };
+        int dst{ 0 };
 
         // Get nodes
         fileIN >> src >> dst;
@@ -215,7 +215,7 @@ int main(void)
 {
     // Open input file
     std::ifstream fileIN;
-    fileIN.open("input_file.txt",std::ios::in);
+    fileIN.open("input_file.txt", std::ios::in);
     assert(fileIN.is_open() && "File couldn't open!");
     std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~Using algorithms~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
 
@@ -231,7 +231,7 @@ int main(void)
     // Get topologic sort
     funct_topo_sort(fileIN);
     separation_line();
-    
+
     // Check bipartite
     funct_check_bipartite(fileIN);
 

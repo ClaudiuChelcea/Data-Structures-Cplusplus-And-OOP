@@ -9,28 +9,26 @@
 /**
  * Node representation
  */
-struct Node
-{
-    std::vector < int > neighbors;
+struct Node {
+    std::vector<int> neighbors;
 };
 
 /**
  * Neighbors list implementation.
  */
-class ListGraph
-{
-    private:
-        // Vector of vectors
-        // Each node has a vector of nodes representing adjacent nodes
-        std::vector < Node > nodes;
+class ListGraph {
+private:
+    // Vector of vectors
+    // Each node has a vector of nodes representing adjacent nodes
+    std::vector<Node> nodes;
     int size;
 
-    public:
+public:
     // Constructor
     ListGraph(int size)
     {
-        this -> size = size;
-        nodes.resize(this -> size);
+        this->size = size;
+        nodes.resize(this->size);
     }
 
     // Destructor
@@ -49,11 +47,11 @@ class ListGraph
     void removeItem(int src, int dst)
     {
         // Getiterator
-        std::vector < int > ::iterator element = nodes[src].neighbors.begin();
+        std::vector<int>::iterator element = nodes[src].neighbors.begin();
 
         // Find element in the list
         for (; element != nodes[src].neighbors.end(); ++element) {
-            if ( * element == dst) {
+            if (*element == dst) {
                 break;
             }
         }
@@ -79,11 +77,11 @@ class ListGraph
     bool hasEdge(int src, int dst)
     {
         // Getiterator
-        std::vector < int > ::iterator element = nodes[src].neighbors.begin();
+        std::vector<int>::iterator element = nodes[src].neighbors.begin();
 
         // Find element in the first list
         for (; element != nodes[src].neighbors.end(); ++element) {
-            if ( * element == dst) {
+            if (*element == dst) {
                 return true;
             }
         }
@@ -94,7 +92,7 @@ class ListGraph
     /**
      * Gets the vector of neighbors associated with the given node.
      */
-    std::vector < int > getNeighbors(int node)
+    std::vector<int> getNeighbors(int node)
     {
         return nodes[node].neighbors;
     }
@@ -133,17 +131,17 @@ class ListGraph
     void print_BFS(int root, int visited[])
     {
         // Create queue with the root
-        std::queue < int > my_queue;
+        std::queue<int> my_queue;
         my_queue.push(root);
 
         visited[root] = 1;
         while (!my_queue.empty()) {
             // Get all neighbors of the current element and display our element
-            std::vector < int > my_neighbors = getNeighbors(my_queue.front());
+            std::vector<int> my_neighbors = getNeighbors(my_queue.front());
             my_queue.pop();
 
             // For each neighbour, if it is not visited, visit it
-            for (auto & element: my_neighbors) {
+            for (auto& element : my_neighbors) {
                 if (visited[element] == 0) {
                     visited[element] = 1;
                     my_queue.push(element);
@@ -156,7 +154,7 @@ class ListGraph
     void distances_BFS(int root, int my_distances[])
     {
         // Create queue with the root
-        std::queue < int > my_queue;
+        std::queue<int> my_queue;
         my_queue.push(root);
         my_distances[root] = 0;
 
@@ -169,11 +167,11 @@ class ListGraph
         while (!my_queue.empty()) {
             // Get all neighbors of the current element and display our element
             int parent = my_queue.front();
-            std::vector < int > my_neighbors = getNeighbors(my_queue.front());
+            std::vector<int> my_neighbors = getNeighbors(my_queue.front());
             my_queue.pop();
 
             // For each neighbour, if it is not visited, visit it
-            for (auto & element: my_neighbors) {
+            for (auto& element : my_neighbors) {
                 if (visited[element] == 0) {
                     visited[element] = 1;
                     my_queue.push(element);
@@ -197,7 +195,7 @@ class ListGraph
             visited[i] = 0;
 
         // Create stack of elements
-        std::stack < int > my_stack;
+        std::stack<int> my_stack;
 
         // Add root and mark as visited
         visited[root]++;
@@ -206,7 +204,7 @@ class ListGraph
         // Repeat until the stack is empty
         while (!my_stack.empty()) {
             // Get neighbors
-            std::vector < int > my_neighbors = getNeighbors(my_stack.top());
+            std::vector<int> my_neighbors = getNeighbors(my_stack.top());
 
             // Find the virst non-visited neighbour
             int my_nonvisited_neighbour = -1;
@@ -221,7 +219,8 @@ class ListGraph
             if (my_nonvisited_neighbour != -1) {
                 visited[my_nonvisited_neighbour]++;
                 my_stack.push(my_nonvisited_neighbour);
-            } else {
+            }
+            else {
                 my_stack.pop();
             }
         }
