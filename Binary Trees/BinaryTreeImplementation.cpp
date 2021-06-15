@@ -36,6 +36,7 @@ int main(void)
     std::cout << "Check if the tree is balanced: ";
     std::cout << std::boolalpha << my_binary_tree.checkBalancedTree(my_binary_tree) << "\n\n";
 
+	// Release all memory
 	my_binary_tree.clean_memory();
 	
     return 0;
