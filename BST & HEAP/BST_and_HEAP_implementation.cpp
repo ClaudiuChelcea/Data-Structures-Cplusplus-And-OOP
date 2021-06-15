@@ -41,25 +41,38 @@ void check_BST(std::vector<int> my_nodes_values)
 	std::cout << "Display the nodes from the BST in an inorder traversal: ";
 	root->inOrderDisplay();
 
+	// Checking for some nodes
+	std::cout << "\n\nSearching if we can find: 10, 23, 100.\n";
+	std::cout << "Answers: " << std::boolalpha << root->searchAndFoundKey(10) << " "
+											   << root->searchAndFoundKey(23) << " "
+											   << root->searchAndFoundKey(100) << "\n\n";	
 
-	// Search keys root->searchKey(key)
+	// Find the minimum and maximum element in the tree
+	std::cout << "Minimum and maximum values in the tree:\n";
+	std::cout << "Minumum: " << root->findMin();
+	std::cout << "\nMaximum: " << root->findMax() << "\n";
 
-	// Display ascending sorted nodes (inorder print)
+	// Remove some keys from the BST
+	std::cout << "Removing some keys from the BST: 15, 23, 6\n";
+	root->removeKey(15);
+	root->removeKey(23);
+	root->removeKey(6);
 
-	// root->findmax()
-
-	// root->findmin()
-
+	// New display
+	std::cout << "\nNew tree is: ";
+	root->inOrderDisplay();
 	// root->displayLevels()
 
 	// root->removekeys
 
-	// check is bst
+	// Check if the tree is BST
+	std::cout << "\n\nCheck if the tree is BST: " <<
+	std::boolalpha << root->isBST() << "\n";
 
 	// Clean memory
 	root->inOrderCleanUp();
 	delete root;
-	std::cout << "\n\n==================================== END BST ============================\n\n";
+	std::cout << "\n==================================== END BST ============================\n\n";
 }
 
 int main(void)
