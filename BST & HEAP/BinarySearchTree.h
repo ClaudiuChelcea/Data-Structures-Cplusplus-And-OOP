@@ -235,12 +235,14 @@ public:
 
             *(start->pData) = *(swap->pData);
 
-            if(parent->leftNode == swap)
+            if(parent->leftNode == swap) {
                 parent->leftNode = parent->leftNode->leftNode;
-            else if(parent->rightNode == swap)
-                parent->rightNode = parent->rightNode->rightNode;
-        }
+            }
 
+            else if(parent->rightNode == swap) {
+                parent->rightNode = parent->rightNode->rightNode;
+            }
+        }
     }
 
     // Inorder traversal of the BST
