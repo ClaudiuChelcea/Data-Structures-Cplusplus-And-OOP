@@ -10,7 +10,7 @@ class BinarySearchTree {
 private:
     BinarySearchTree<T>* leftNode;
     BinarySearchTree<T>* rightNode;
-    BinarySearchTree<T>* copy;
+    BinarySearchTree<T>* root;
     T* pData;
 
 public:
@@ -19,7 +19,7 @@ public:
     {
         this->leftNode = nullptr;
         this->rightNode = nullptr;
-        this->copy = nullptr;
+        this->root = nullptr;
         this->pData = nullptr;
     }
 
@@ -44,11 +44,11 @@ public:
     // Insert a key iteratively in BST tree
     void insertKey(T x)
     {
-        if (!copy) {
-            copy = create_node(x);
+        if (!root) {
+            root = create_node(x);
         }
         else { // Search the needed position
-            BinarySearchTree<T>* start = copy;
+            BinarySearchTree<T>* start = root;
             bool created_node = false;
 
             // Exit loop when adding a node
@@ -130,7 +130,7 @@ public:
     BinarySearchTree<T>* searchKey(T x)
     {
         // Create a duplicate
-        BinarySearchTree<T>* start = copy;
+        BinarySearchTree<T>* start = root;
         return found_key(start, x);
     }
 
@@ -159,7 +159,7 @@ public:
     // Display the nodes in ascending order by value
     void inOrderDisplay()
     {
-        __inorderPrint(this->copy);
+        __inorderPrint(this->root);
     }
 
     // Return the element on the max left
@@ -177,7 +177,7 @@ public:
     // Find the minimum element in the BST
     T findMin()
     {
-        BinarySearchTree<T>* my_root = get_max_left_element(copy);
+        BinarySearchTree<T>* my_root = get_max_left_element(root);
         return *(my_root->pData);
     }
 
@@ -196,67 +196,51 @@ public:
     // Find the maximum element in the BST
     T findMax()
     {
-        BinarySearchTree<T>* my_root = get_max_right_element(copy);
+        BinarySearchTree<T>* my_root = get_max_right_element(root);
         return *(my_root->pData);
     }
 
     // Remove node with key 'x' from the tree
     void removeKey(T x)
     {
-        // Get the node
-        BinarySearchTree<T>* my_node = searchKey(x);
-        if (!my_node)
+        BinarySearchTree<T>* start = searchKey(x);
+        if(!start)
             return;
 
-        // Check if it's a leaf
-        if (!my_node->leftNode && !my_node->rightNode) {
-            BinarySearchTree<T>* my_parent = get_parent_of_node(copy, x);
-            if (my_parent->leftNode && *(my_parent->leftNode->pData) == *(my_node->pData)) {
-                delete my_parent->leftNode->pData;
-                delete my_parent->leftNode;
-                my_parent->leftNode = nullptr;
-                return;
-            }
-            else if (my_parent->rightNode && *(my_parent->rightNode->pData) == *(my_node->pData)) {
-                delete my_parent->rightNode->pData;
-                delete my_parent->rightNode;
-                my_parent->rightNode = nullptr;
-                return;
-            }
+        // Leaf
+        else if(!start->leftNode && !start->rightNode)
+        {
+            BinarySearchTree<T>* parent = get_parent_of_node(root, x);
+            if(parent->leftNode == start)
+                parent->leftNode = NULL;
+            else if(parent->rightNode = start)
+                parent->rightNode = NULL;
         }
 
-        // If it has only one child
         // Only left child
-        else if (!my_node->rightNode && my_node->leftNode) {
-            *(my_node->pData) = *(my_node->leftNode->pData);
-            delete my_node->leftNode->pData;
-            delete my_node->leftNode;
-            my_node->leftNode = nullptr;
-            return;
-        }
-        else if (my_node->rightNode && !my_node->leftNode) { // only right child
-            *(my_node->pData) = *(my_node->rightNode->pData);
-            delete my_node->rightNode->pData;
-            delete my_node->rightNode;
-            my_node->rightNode = nullptr;
-            return;
+        else if(!start->rightNode && start->leftNode)
+        {
+            BinarySearchTree<T>* parent = get_parent_of_node(root, x);
+            parent->leftNode = parent->leftNode->leftNode;
+        } else if(start->rightNode && !start->leftNode) {
+            // Only right child
+            BinarySearchTree<T>* parent = get_parent_of_node(root, x);
+            parent->rightNode = parent->rightNode->rightNode;
         }
 
-        // If it has two childs
-        else if (my_node->leftNode && my_node->rightNode) {
+        // Both childs
+        else if(start->leftNode && start->rightNode) {
+            BinarySearchTree<T>* swap = get_max_right_element(start->leftNode);
+            BinarySearchTree<T>* parent = get_parent_of_node(root, *(swap->pData));
 
-            // Get right_most succesor from the left child
-            BinarySearchTree<T>** left_child = &(my_node->leftNode);
-            while ((*left_child)->rightNode)
-                (*left_child) = (*left_child)->rightNode;
+            *(start->pData) = *(swap->pData);
 
-            // Replace that value with our current value and delete
-            // the extra pointer
-            *(my_node->pData) = *((*left_child)->pData);
-            delete (*left_child)->pData;
-            delete (*left_child);
-            (*left_child) = NULL;
+            if(parent->leftNode == swap)
+                parent->leftNode = parent->leftNode->leftNode;
+            else if(parent->rightNode == swap)
+                parent->rightNode = parent->rightNode->rightNode;
         }
+
     }
 
     // Inorder traversal of the BST
@@ -274,7 +258,7 @@ public:
     // Display the nodes in ascending order by value
     void inOrderCleanUp()
     {
-        __postorderCleanUp(this->copy);
+        __postorderCleanUp(this->root);
     }
 
     // CHeck if BST tree is correct
@@ -296,7 +280,7 @@ public:
     // Check if a tree is BST
     bool isBST()
     {
-        return check_is_BST(copy);
+        return check_is_BST(root);
     }
 };
 

@@ -52,10 +52,11 @@ void check_BST(std::vector<int> my_nodes_values)
     std::cout << "\nMaximum: " << root->findMax() << "\n";
 
     // Remove some keys from the BST
-    std::cout << "\nRemoving some keys from the BST: 23, 32, 6\n";
-	root->removeKey(23);
+    std::cout << "\nRemoving some keys from the BST: 32, 6, 20\n";
 	root->removeKey(32);
 	root->removeKey(6);
+	root->removeKey(20);
+	root->removeKey(15);
 
     // New display
     std::cout << "\nNew tree is: ";
