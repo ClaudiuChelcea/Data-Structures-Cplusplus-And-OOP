@@ -52,10 +52,10 @@ void check_BST(std::vector<int> my_nodes_values)
     std::cout << "\nMaximum: " << root->findMax() << "\n";
 
     // Remove some keys from the BST
-    std::cout << "Removing some keys from the BST: 15, 23, 6\n";
-    root->removeKey(15);
-    root->removeKey(23);
-    root->removeKey(6);
+    std::cout << "\nRemoving some keys from the BST: 23, 32, 6\n";
+	root->removeKey(23);
+	root->removeKey(32);
+	root->removeKey(6);
 
     // New display
     std::cout << "\nNew tree is: ";
@@ -68,6 +68,40 @@ void check_BST(std::vector<int> my_nodes_values)
     root->inOrderCleanUp();
     delete root;
     std::cout << "\n==================================== END BST ============================\n\n";
+}
+
+// Create and test BST
+void check_HEAP(std::vector<int> my_nodes_values)
+{
+    std::cout << "\n==================================== START HEAP ============================\n\n";
+
+    // Create BST
+    Heap<int>* root = new Heap<int>();
+
+    // Insert the elements
+    for (auto& element : my_nodes_values)
+        root->insert(element);
+
+    // Display the created heap
+    root->print_heap();
+
+    // Get minimum and maximum
+    std::cout << "Get maximum and minimum element:\n";
+	std::cout << "Minimum: " << root->extractMin() << "\n\n";
+    std::cout << "Maximum: " << root->peek() << "\n";  
+
+    // Remove some elements:
+    std::cout << "Pop-ing some elements:\n";
+    root->pop();
+    root->pop();
+
+    // Display the remaining heap
+    root->print_heap();
+
+	// Release memory
+	delete root;
+
+    std::cout << "\n==================================== END HEAP ============================\n\n";
 }
 
 int main(void)
@@ -85,6 +119,9 @@ int main(void)
 
     // Check the BST tree created with these values
     check_BST(my_nodes_values);
+
+    // Check the HEAP structure
+    check_HEAP(my_nodes_values);
 
     return 0;
 }

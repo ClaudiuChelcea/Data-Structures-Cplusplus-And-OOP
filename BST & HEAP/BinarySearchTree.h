@@ -244,19 +244,18 @@ public:
 
         // If it has two childs
         else if (my_node->leftNode && my_node->rightNode) {
+
             // Get right_most succesor from the left child
-            BinarySearchTree<T>* left_child = my_node->leftNode;
-            while (left_child->rightNode)
-                left_child = left_child->rightNode;
+            BinarySearchTree<T>** left_child = &(my_node->leftNode);
+            while ((*left_child)->rightNode)
+                (*left_child) = (*left_child)->rightNode;
 
             // Replace that value with our current value and delete
             // the extra pointer
-
-            memcpy(my_node, left_child, sizeof(BinarySearchTree<T>*));
-            *(my_node->pData) = *(left_child->pData);
-            delete left_child->pData;
-            delete left_child;
-            left_child = NULL;
+            *(my_node->pData) = *((*left_child)->pData);
+            delete (*left_child)->pData;
+            delete (*left_child);
+            (*left_child) = NULL;
         }
     }
 
