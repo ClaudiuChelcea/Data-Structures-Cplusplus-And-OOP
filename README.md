@@ -1,2 +1,2 @@
 # Chelcea Claudiu  <br>
-Self-learning C++ repository and data-structures.
+Self-learning C++ repository: data-structures & OOP.
