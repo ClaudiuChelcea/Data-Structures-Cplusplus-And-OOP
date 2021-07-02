@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <string.h>
 
+template <typename T> class ShoppingBag;
+
 // Product class
 class Product {
 private:
@@ -14,7 +16,7 @@ private:
     double price;
     int product_id;
     int num_products;
-
+	template <typename T> friend class ShoppingBag;
 protected:
     static int products_nr;
     const std::string class_name{ "Product" };
@@ -105,6 +107,7 @@ public:
         // Close file
         fout.close();
     }
+
     // Retrieve product from text file
     static Product retrieve_from_text(std::string file_name)
     {
@@ -124,6 +127,60 @@ public:
 
         // Return output
         return new_product;
+    }
+
+	// Write product to binary file
+    void save_to_binary(const char* file_name)
+    {
+        // Open file
+		std::ofstream out(file_name, std::ios::out | std::ios::binary);
+
+		// Get the length of the name
+		int length = this->name.length();
+		
+		// Write to file
+		out.write((char*) &length, sizeof(int));
+		out.write(this->name.c_str(), length);
+		out.write((char*) &this->price, sizeof(double));
+		out.write((char*) &this->num_products, sizeof(int));
+		out.write((char*) &this->product_id, sizeof(int));
+
+		// Close file
+		out.close();
+	}
+
+	// Retrieve product from binary file
+    static Product retrieve_from_binary(std::string file_name)
+    {
+		// Open file
+		std::ifstream in(file_name, std::ios::in | std::ios::binary);
+
+		// Create fields
+		int length {0};
+		char* product_name = (char*) calloc(100, sizeof(char));
+		double product_price{0};
+		int product_id;
+		int products_number;
+
+		// Read from file
+		in.read((char*) &length, sizeof(int));
+		in.read(product_name, length);
+		in.read((char*) &product_price, sizeof(double));
+		in.read((char*) &products_number, sizeof(int));
+		in.read((char*) &product_id, sizeof(int));
+
+		// Move the name to a string
+		std::string product_string_name;
+		product_string_name.resize(length);
+		for(int i = 0; i < length; ++i)
+			product_string_name[i] = product_name[i];
+		free(product_name);
+
+		// Close file
+		in.close();
+
+		// Return output
+		return Product(product_string_name, product_price, product_id, products_number);
     }
 
     // Display operator
@@ -192,6 +249,7 @@ public:
     void operator+=(T& produs)
     {
         products_list.push_back(produs);
+		++Product::products_nr;
     }
 
     void operator-=(T& produs)
@@ -199,6 +257,7 @@ public:
         products_list.remove_if([produs](T& element) -> bool {
             return element == produs;
         });
+		--Product::products_nr;
     }
 
     void operator=(ShoppingBag& old_shopping_bag)
@@ -209,6 +268,7 @@ public:
         old_shopping_bag.products_list.clear();
     }
 
+	// Return the whole shopping list price
     double shopping_list_price()
     {
         double price{ 0 };
@@ -266,10 +326,15 @@ int main(void)
     // Display the shopping list`s price
     std::cout << "\nTotal price is: " << new_shopping_bag.shopping_list_price() << "$\n";
 
-    // Write product to file
-    std::cout << "Save item to text file and retrieve it...\n";
+    // Write product and retrieve it from a text file
+    std::cout << "\nSave item to text file and retrieve it...\n";
     new_shopping_bag[2].save_to_text("out_file.txt");
     std::cout << Product::retrieve_from_text("out_file.txt") << "\n";
+
+	// Write product and retrieve it from a binary file
+    std::cout << "\nSave item to binary file and retrieve it...";
+    new_shopping_bag[2].save_to_binary("out_file.bin");
+    std::cout << "\n" << Product::retrieve_from_binary("out_file.bin") << "\n";
 
     return 0;
 }
